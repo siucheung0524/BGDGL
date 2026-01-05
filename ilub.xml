@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" 
+    xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" 
+    xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>聖艾粒LaLaLaLa (903 存檔)</title>
+    <link>https://hkfm903.live/</link>
+    <language>zh-hk</language>
+    <itunes:author>艾粒 (I Love You Boyz)</itunes:author>
+    <itunes:summary>商業電台 903 節目《聖艾粒LaLaLaLa》每日存檔</itunes:summary>
+    <description>商業電台 903 節目《聖艾粒LaLaLaLa》每日存檔。</description>
+    <itunes:owner>
+      <itunes:name>艾粒</itunes:name>
+    </itunes:owner>
+    <itunes:image href="https://siucheung0524.github.io/cr2/ilub_cover.jpg" />
+    <itunes:category text="Comedy" />
+    <itunes:explicit>false</itunes:explicit>
+
+    <item>
+      <title>聖艾粒 Podcast 服務啟動</title>
+      <itunes:episodeType>full</itunes:episodeType>
+      <pubDate>Mon, 05 Jan 2026 00:00:00 +0800</pubDate>
+      <guid isPermaLink="false">ilub-init</guid>
+      <description>聖艾粒LaLaLaLa RSS 自動抓取服務已成功建立。</description>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
+
+  </channel>
+</rss>
