@@ -5,19 +5,16 @@
     <link>https://hkfm903.live/</link>
     <language>zh-hk</language>
     <itunes:author>森美 / 阿正 / Elsie</itunes:author>
-    <itunes:summary>商業電台 903 節目《Bad Girl 大過佬》每日存檔。</itunes:summary>
+    <itunes:summary>商業電台 903 節目《Bad Girl 大過佬》每日存檔 (此頻道自動抓取 hkfm903.live 檔案生成)</itunes:summary>
     <itunes:image href="https://siucheung0524.github.io/BGDGL/cover.jpg" />
     <itunes:category text="Comedy" />
     <itunes:explicit>false</itunes:explicit>
-
+    
     <item>
-      <title>2026-01-01 Bad Girl 大過佬</title>
-      <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Thu, 01 Jan 2026 10:00:00 +0800</pubDate>
-      <guid isPermaLink="false">bgog-20260101</guid>
-      <enclosure url="https://hkfm903.live/recordings/Bad%20Girl%E5%A4%A7%E9%81%8E%E4%BD%AC/20260101_1000_Bad_Girl%E5%A4%A7%E9%81%8E%E4%BD%AC.aac" length="0" type="audio/aac" />
-      <itunes:duration>02:00:00</itunes:duration>
+      <title>Podcast 啟動</title>
+      <pubDate>Mon, 05 Jan 2026 00:00:00 +0800</pubDate>
+      <guid isPermaLink="false">init-post</guid>
+      <description>Podcast RSS 自動抓取服務已啟動。</description>
     </item>
-
   </channel>
 </rss>
