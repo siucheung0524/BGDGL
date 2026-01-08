@@ -14,54 +14,54 @@ def check_and_update():
     
     print(f"[{PODCAST_NAME}] 檢查日期: {today_str}")
 
+    # 模擬更完整的瀏覽器 Header
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'audio/mpeg,audio/*;q=0.9,application/ogg;q=0.7,audio/wav;q=0.6,*/*;q=0.5',
+        'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7',
         'Referer': 'https://hkfm903.live/'
     }
 
     found_url = None
-    
-    # 使用原始中文字串，交給 urllib.parse.quote 處理，防止雙重編碼
     show_path = "Bad Girl大過佬"
     
-    print(f"[{PODCAST_NAME}] 開始暴力搜尋 10:00 - 10:20...")
+    print(f"[{PODCAST_NAME}] 開始暴力搜尋 10:00 - 10:25...")
 
-    for m in range(0, 21):
+    for m in range(0, 26):
         time_str = f"10{m:02d}"
-        # 測試兩種可能的檔名格式：空格版與底線版
         for separator in [" ", "_"]:
-            # 建立原始檔名
             raw_filename = f"{today_str}_{time_str}_Bad{separator}Girl大過佬.aac"
-            
-            # 正確編碼路徑組件
             encoded_show = urllib.parse.quote(show_path)
             encoded_file = urllib.parse.quote(raw_filename)
             
-            test_url = f"https://hkfm903.live/recordings/{encoded_show}/{encoded_file}"
-            
-            # 這是偵錯關鍵：印出測試中的網址
-            print(f"測試中 ({time_str}): {test_url}")
+            # 先用 HTTP 測試，因為網站本質是 HTTP，成功率較高
+            test_url_http = f"http://hkfm903.live/recordings/{encoded_show}/{encoded_file}"
             
             try:
-                r = requests.get(test_url, headers=headers, timeout=5, stream=True)
+                # 關鍵：verify=False 忽略 SSL 憑證錯誤，避免握手失敗
+                r = requests.get(test_url_http, headers=headers, timeout=10, stream=True, verify=False)
+                
+                # 偵錯：如果是 10:09，印出狀態碼
+                if time_str == "1009":
+                    print(f"DEBUG (1009): 嘗試 {test_url_http} -> 狀態碼: {r.status_code}")
+
                 if r.status_code == 200:
-                    print(f"✅ 找到檔案！狀態碼 200")
-                    found_url = test_url
+                    print(f"✅ 找到檔案！ (HTTP 200)")
+                    # 寫入 RSS 時改回 HTTPS，確保 Podcast App 接受
+                    found_url = test_url_http.replace("http://", "https://")
                     break
             except Exception as e:
-                print(f"❌ 連線出錯: {e}")
+                if time_str == "1009":
+                    print(f"DEBUG (1009) 出錯: {e}")
                 continue
         if found_url: break
 
     if not found_url:
-        print(f"[{PODCAST_NAME}] 依然找不到檔案。請對比上方印出的網址與瀏覽器網址。")
+        print(f"[{PODCAST_NAME}] 依然找不到檔案。")
         return
 
-    # 寫入 RSS 檔案邏輯
-    if not os.path.exists(RSS_FILE):
-        print(f"錯誤: 找不到 {RSS_FILE}")
-        return
-        
+    # 寫入 RSS
+    if not os.path.exists(RSS_FILE): return
     with open(RSS_FILE, "r", encoding="utf-8") as f:
         rss_content = f.read()
 
@@ -76,13 +76,10 @@ def check_and_update():
       <itunes:duration>02:00:00</itunes:duration>
     </item>
 """
-        # 在第一個 <item> 之前插入
         updated_content = rss_content.replace("    <item>", new_item + "    <item>", 1)
         with open(RSS_FILE, "w", encoding="utf-8") as f:
             f.write(updated_content)
-        print(f"[{PODCAST_NAME}] RSS 更新成功！")
-    else:
-        print(f"[{PODCAST_NAME}] 該日期集數已存在，跳過。")
+        print(f"[{PODCAST_NAME}] 更新成功：{today_str}")
 
 if __name__ == "__main__":
     check_and_update()
